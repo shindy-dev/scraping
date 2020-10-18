@@ -8,6 +8,11 @@ python3系を使用する際のコマンドが「python3」となっているが
 
 ```
 python -m venv venv
+
+# mac os or linux
 source venv/bin/activate
+# windows
+venv\Scripts\activate
+
 python -m pip selenium
 ```
