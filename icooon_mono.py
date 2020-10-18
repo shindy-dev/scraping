@@ -114,13 +114,12 @@ class Scraping_icooon_mono:
         color_picker.send_keys(
             (Keys.COMMAND if self.dm.driver_os == "mac64" else Keys.CONTROL) + "a"
         )
-        time.sleep(0.25)
+        time.sleep(0.5)
 
         color_picker.send_keys(f"rgb{rgb}")
-        time.sleep(0.25)
+        time.sleep(1)
 
         self.driver.execute_script(f"javascript:{ext.value}()")
-        time.sleep(0.25)
 
     def get_options(self, download_path: str, headless: bool = False):
         options = webdriver.ChromeOptions()
@@ -130,7 +129,7 @@ class Scraping_icooon_mono:
             options.add_argument("--headless")
         options.add_argument("--disable-gpu")
         options.add_argument("--ignore-certificate-errors")
-        options.add_argument(f"--window-size={120},{120}")
+        options.add_argument(f"--window-size={480},{480}")
         options.add_argument("--disable-extensions")
         options.add_argument("--disable-popup-blocking")
 

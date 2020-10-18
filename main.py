@@ -32,8 +32,9 @@ if __name__ == "__main__":
         [f.write(f"{icon_id},{icon_name}\n") for icon_id, icon_name in icon_ids]
 
     print(f"<<< Download Start... ({len(icon_ids)})>>>")
+    print("ID   , NAME")
     for icon_id, icon_name in icon_ids:
-        print(f"id: {icon_id}, name: {icon_name}")
+        print(f"{icon_id}, {icon_name}")
         service.download_icon(icon_id, ext, size, color)
     print(f"<<< Download End... ({len(icon_ids)})>>>")
 
