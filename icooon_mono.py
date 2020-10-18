@@ -44,8 +44,7 @@ class Scraping_icooon_mono:
         )
         print("booting Chrome...")
         self.driver: webdriver.Chrome = webdriver.Chrome(
-            executable_path=self.dm.driver_path,
-            options=options,
+            executable_path=self.dm.driver_path, options=options,
         )
 
     def __del__(self):
@@ -96,23 +95,32 @@ class Scraping_icooon_mono:
         self.driver.get(url)
         self.wait_load_complete()
 
-        self.driver.find_element_by_xpath(f'//ul[@id="size"]/li[{size.value}]').click()
+        size_select = self.driver.find_element_by_xpath(
+            f'//ul[@id="size"]/li[{size.value}]'
+        )
+        self.driver.execute_script(
+            "javascript:arguments[0].scrollIntoView()", size_select
+        )
+        size_select.click()
         color_picker = self.driver.find_element_by_xpath(
             "//input[@id='iconSingleColor']"
         )
+        self.driver.execute_script(
+            "javascript:arguments[0].scrollIntoView()", color_picker
+        )
         color_picker.click()
-        time.sleep(0.5)
+        time.sleep(0.25)
 
         color_picker.send_keys(
             (Keys.COMMAND if self.dm.driver_os == "mac64" else Keys.CONTROL) + "a"
         )
-        time.sleep(0.5)
+        time.sleep(0.25)
 
         color_picker.send_keys(f"rgb{rgb}")
-        time.sleep(0.5)
+        time.sleep(0.25)
 
         self.driver.execute_script(f"javascript:{ext.value}()")
-        time.sleep(0.5)
+        time.sleep(0.25)
 
     def get_options(self, download_path: str, headless: bool = False):
         options = webdriver.ChromeOptions()
@@ -126,7 +134,6 @@ class Scraping_icooon_mono:
         options.add_argument("--disable-extensions")
         options.add_argument("--disable-popup-blocking")
 
-        download_path = "/Users/shindy/Downloads/icooon-mono"
         if os.path.exists(download_path):
             raise FileExistsError(f"{download_path} は既に存在しています。削除するか、保存場所を変更してください。")
         os.mkdir(download_path)
