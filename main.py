@@ -5,13 +5,13 @@ import time
 if __name__ == "__main__":
     dm = DriverManager(driver_dir=".", driver_version="86.0.4240.22",)
     # 保存場所
-    path = "C:\\Users\\shindy\\Downloads\\icooon-mono\\"
+    path = "C:\\Users\\shindy\\Downloads\\icooon-mono_svg_all_px516_(75, 75, 75)\\"
     # カテゴリ
     category = Category.health
     # 拡張子
-    ext = Ext.png
+    ext = Ext.svg
     # 画像の解像度
-    size = Size.px48
+    size = Size.px516
     # 色(rgb)
     color = (75, 75, 75)
 
@@ -27,7 +27,8 @@ if __name__ == "__main__":
     
     service = Scraping_icooon_mono(dm, path)
     print("icon listup...")
-    icon_ids = sorted(set(service.get_icon_ids(Category.health)))
+    #icon_ids = sorted(set(service.get_icon_ids(Category.health)))
+    icon_ids = sorted(set(service.get_full_icon_ids()))
     with open("icon_ids.csv", "w") as f:
         [f.write(f"{icon_id},{icon_name}\n") for icon_id, icon_name in icon_ids]
 

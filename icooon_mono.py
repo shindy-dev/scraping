@@ -90,6 +90,37 @@ class Scraping_icooon_mono:
 
         return icon_ids
 
+    def get_full_icon_ids(self):
+        url = f"{self.base_url}"
+        self.driver.get(url)
+        icon_ids = []
+
+        next_btn_xpath = "//div[@id='wp_page_numbers']/ul/li[contains(.,'>')]/a"
+        while True:
+            topMaincolumn = WebDriverWait(self.driver, 30).until(
+                EC.presence_of_element_located(
+                    (By.XPATH, "//div[@id='topMaincolumn']/ul")
+                )
+            )
+            for li in topMaincolumn.find_elements_by_tag_name("li"):
+                icon_full_id: str = li.find_element_by_tag_name("span").get_attribute(
+                    "data-icon"
+                )
+                icon_name: str = li.text
+                icon_id = icon_full_id.lstrip("icon_")
+                icon_ids.append((icon_id, icon_name))
+
+            if not len(self.driver.find_elements_by_xpath(next_btn_xpath)) > 0:
+                break
+
+            self.driver.get(
+                WebDriverWait(self.driver, 30)
+                .until(EC.presence_of_element_located((By.XPATH, next_btn_xpath)))
+                .get_attribute("href")
+            )
+
+        return icon_ids
+
     def download_icon(self, icon_id: str, ext: Ext, size: Size, rgb: tuple = (75,) * 3):
         url = f"{self.base_url}/{icon_id}"
         self.driver.get(url)
